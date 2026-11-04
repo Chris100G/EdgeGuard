@@ -5,7 +5,8 @@ Real-time visual privacy awareness using local person detection. EdgeGuard detec
 ## Status
 
 - Local application: ready to run with webcam or labeled sample-image demo mode.
-- Hosted demo: not deployed yet. A public deployment requires publishing this project to GitHub and connecting it to Streamlit Community Cloud.
+- GitHub repository: [Chris100G/EdgeGuard](https://github.com/Chris100G/EdgeGuard).
+- Hosted demo: not deployed yet. Streamlit Community Cloud requires the account owner to sign in with Google and authorize the GitHub repository.
 
 ## Run locally
 
@@ -60,11 +61,11 @@ When run locally, frames are processed by the local Python process. A hosted Str
 
 ## Deploy to Streamlit Community Cloud
 
-1. Push the project to a GitHub repository, including `models/` and `samples/`.
-2. Create an app at [Streamlit Community Cloud](https://share.streamlit.io/) and select the repository, branch, and `app.py` entry point.
-3. Wait for the build to complete, then add the resulting app URL below and test it in sample-image demo mode.
+1. Open [Deploy EdgeGuard](https://share.streamlit.io/deploy?repository=Chris100G/EdgeGuard&branch=main&mainModule=app.py).
+2. Sign in with the owner's Google account and authorize Streamlit Community Cloud to access the GitHub repository.
+3. Wait for the build to complete, then test in sample-image demo mode. Hosted deployments cannot access a visitor's laptop webcam.
 
-**Hosted app:** Not deployed.
+**Hosted app:** Not deployed. Complete the owner sign-in above to create the live app.
 
 ## Limitations
 
