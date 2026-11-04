@@ -1,0 +1,511 @@
+/* ==========================================================================
+   EdgeGuard - Professional Cybersecurity Dashboard Stylesheet
+   Color Palette: Deep Slate / Navy, Electric Cyan, Emerald, Amber, Crimson
+   ========================================================================== */
+
+/* Root & Global Overrides */
+:root {
+    --bg-primary: #0B0F19;
+    --bg-secondary: #111827;
+    --bg-tertiary: #1E293B;
+    --bg-card: #151E2E;
+    
+    --text-primary: #F3F4F6;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    
+    --accent-cyan: #06B6D4;
+    --accent-blue: #3B82F6;
+    --accent-indigo: #6366F1;
+    
+    --status-safe: #10B981;
+    --status-safe-bg: rgba(16, 185, 129, 0.12);
+    --status-safe-border: rgba(16, 185, 129, 0.4);
+    
+    --status-risk: #F59E0B;
+    --status-risk-bg: rgba(245, 158, 11, 0.14);
+    --status-risk-border: rgba(245, 158, 11, 0.45);
+    
+    --status-error: #EF4444;
+    --status-error-bg: rgba(239, 68, 68, 0.14);
+    --status-error-border: rgba(239, 68, 68, 0.45);
+    
+    --border-subtle: #243044;
+    --border-accent: rgba(6, 182, 212, 0.3);
+    
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* App Background */
+.stApp {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+}
+
+/* Header Container */
+.edgeguard-header {
+    background: linear-gradient(180deg, #131C2E 0%, #0D1321 100%);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edgeguard-title-group h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.edgeguard-title-group p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    margin: 4px 0 0 0;
+    font-family: var(--font-mono);
+}
+
+/* Status Pill Indicators */
+.edgeguard-pill-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.edgeguard-pill {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+}
+
+.edgeguard-pill-active {
+    background-color: rgba(6, 182, 212, 0.15);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+}
+
+.edgeguard-pill-offline {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--status-safe);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.edgeguard-pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.edgeguard-pill-dot.cyan { background-color: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
+.edgeguard-pill-dot.green { background-color: var(--status-safe); box-shadow: 0 0 8px var(--status-safe); }
+.edgeguard-pill-dot.amber { background-color: var(--status-risk); box-shadow: 0 0 8px var(--status-risk); }
+.edgeguard-pill-dot.red { background-color: var(--status-error); box-shadow: 0 0 8px var(--status-error); }
+
+/* Dashboard Cards */
+.security-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.security-card-header {
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Security Status Banner */
+.status-banner {
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.status-banner-safe {
+    background: var(--status-safe-bg);
+    border: 1px solid var(--status-safe-border);
+}
+
+.status-banner-risk {
+    background: var(--status-risk-bg);
+    border: 1px solid var(--status-risk-border);
+    animation: pulse-border 2s infinite ease-in-out;
+}
+
+.status-banner-error {
+    background: var(--status-error-bg);
+    border: 1px solid var(--status-error-border);
+}
+
+.status-banner-inactive {
+    background: rgba(100, 116, 139, 0.12);
+    border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+@keyframes pulse-border {
+    0%, 100% { border-color: rgba(245, 158, 11, 0.45); }
+    50% { border-color: rgba(245, 158, 11, 0.9); box-shadow: 0 0 16px rgba(245, 158, 11, 0.25); }
+}
+
+.status-headline {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-headline.safe { color: var(--status-safe); }
+.status-headline.risk { color: var(--status-risk); }
+.status-headline.error { color: var(--status-error); }
+.status-headline.inactive { color: var(--text-muted); }
+
+.status-description {
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    line-height: 1.45;
+}
+
+/* Telemetry Metric Tile */
+.metric-tile {
+    background: #0E1626;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 12px 14px;
+    text-align: left;
+}
+
+.metric-tile-label {
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-tile-value {
+    font-size: 1.35rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-top: 4px;
+}
+
+.metric-tile-sub {
+    font-size: 0.70rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* Empty State Placeholder */
+.camera-placeholder {
+    background: #090E17;
+    border: 2px dashed #243044;
+    border-radius: 12px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 24px;
+}
+
+.camera-placeholder h3 {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin: 12px 0 6px 0;
+}
+
+.camera-placeholder p {
+    font-size: 0.85rem;
+    max-width: 360px;
+    margin: 0;
+}
+
+/* Privacy Notice Panel */
+.privacy-badge-panel {
+    background: rgba(6, 182, 212, 0.05);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 0.82rem;
+    color: #A5F3FC;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Sidebar Custom Styling */
+[data-testid="stSidebar"] {
+    background-color: #0D1321;
+    border-right: 1px solid var(--border-subtle);
+}
+
+[data-testid="stSidebar"] .stMarkdown h2, 
+[data-testid="stSidebar"] .stMarkdown h3 {
+    color: var(--accent-cyan);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Streamlit Button Styling */
+div.stButton > button {
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 0.02em;
+    padding: 8px 18px;
+    transition: all 0.2s ease;
+}
+
+/* Table / Dataframe styling */
+[data-testid="stDataFrame"] {
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+:root {
+    color-scheme: dark;
+    --bg-primary: #080D14;
+    --bg-secondary: #0E1722;
+    --bg-tertiary: #172431;
+    --bg-card: #101B27;
+    --text-primary: #EAF1F4;
+    --text-secondary: #A7B8C2;
+    --text-muted: #778B98;
+    --accent-cyan: #36D6C5;
+    --accent-blue: #58A9F5;
+    --status-safe: #51D69A;
+    --status-risk: #FFC15A;
+    --status-error: #FF7272;
+    --border-subtle: #233542;
+    --border-accent: rgba(54, 214, 197, 0.3);
+    --font-sans: "Bahnschrift", "Segoe UI Variable", "Segoe UI", sans-serif;
+}
+
+html, body, [data-testid="stAppViewContainer"], .stApp {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary);
+    letter-spacing: 0 !important;
+}
+
+header[data-testid="stHeader"], [data-testid="stToolbar"] {
+    background: var(--bg-primary) !important;
+}
+
+.stAppDeployButton, #MainMenu, footer {
+    display: none !important;
+}
+
+section.main > div {
+    padding-top: 1.25rem;
+    padding-bottom: 2rem;
+}
+
+.edgeguard-header {
+    position: relative;
+    overflow: hidden;
+    min-height: 104px;
+    background: linear-gradient(112deg, #10202C 0%, #0D1722 58%, #12242B 100%);
+    border: 1px solid #263D49;
+    border-radius: 9px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.edgeguard-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.edgeguard-logo {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    flex: 0 0 58px;
+}
+
+.edgeguard-title-group h1 {
+    font-family: var(--font-sans);
+    font-size: 1.65rem;
+    line-height: 1.1;
+    letter-spacing: 0 !important;
+}
+
+.edgeguard-title-group p {
+    color: #AFC0C8;
+    font-size: 0.78rem;
+    letter-spacing: 0 !important;
+}
+
+.edgeguard-pill-group {
+    align-items: center;
+}
+
+.edgeguard-pill {
+    padding: 7px 11px;
+    border-radius: 5px;
+    letter-spacing: 0 !important;
+}
+
+.edgeguard-pill-active {
+    color: var(--accent-cyan);
+    background: rgba(54, 214, 197, 0.09);
+    border-color: rgba(54, 214, 197, 0.28);
+}
+
+[data-testid="stSidebar"] {
+    background: #0B141D;
+    border-right: 1px solid #1D303C;
+}
+
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: #9EB4BF;
+    font-family: var(--font-sans);
+    letter-spacing: 0 !important;
+}
+
+[data-testid="stMetric"] {
+    min-height: 92px;
+    padding: 12px 14px;
+    background: #0E1822;
+    border: 1px solid #20323E;
+    border-radius: 7px;
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--text-secondary);
+}
+
+[data-testid="stMetricValue"] {
+    color: #F2F7F8;
+    font-family: var(--font-mono);
+}
+
+[data-testid="stButton"] > button {
+    min-height: 42px;
+    border-radius: 6px;
+    font-weight: 650;
+    letter-spacing: 0 !important;
+    transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+[data-testid="stButton"] > button[kind="primary"] {
+    color: #061515 !important;
+    background: var(--accent-cyan) !important;
+    border: 1px solid var(--accent-cyan) !important;
+}
+
+[data-testid="stButton"] > button[kind="primary"]:hover {
+    background: #65E5D6 !important;
+    border-color: #65E5D6 !important;
+    transform: translateY(-1px);
+}
+
+[data-testid="stButton"] > button:focus-visible {
+    outline: 2px solid #A1FFF4;
+    outline-offset: 2px;
+}
+
+.status-banner {
+    min-height: 128px;
+    border-radius: 7px;
+    padding: 18px;
+}
+
+.status-headline {
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
+    letter-spacing: 0 !important;
+}
+
+.camera-placeholder {
+    height: 272px;
+    border: 1px solid #253844;
+    border-radius: 7px;
+    background-color: #0A121A;
+    background-image: linear-gradient(rgba(54, 214, 197, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(54, 214, 197, 0.025) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+
+.camera-placeholder h3 {
+    color: #D8E4E8;
+    font-family: var(--font-sans);
+}
+
+[data-testid="stDataFrame"] {
+    border-color: #20323E;
+    border-radius: 7px;
+}
+
+@media (max-width: 720px) {
+    section.main > div {
+        padding: 0.8rem 0.75rem 1.5rem;
+    }
+
+    .edgeguard-header {
+        padding: 14px;
+    }
+
+    .edgeguard-logo {
+        width: 44px;
+        height: 44px;
+        flex-basis: 44px;
+    }
+
+    .edgeguard-title-group h1 {
+        font-size: 1.35rem;
+    }
+
+    .edgeguard-pill {
+        font-size: 0.65rem;
+        padding: 6px 8px;
+    }
+
+    .camera-placeholder {
+        height: 220px;
+    }
+}
+
