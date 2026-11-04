@@ -323,6 +323,8 @@ def live_monitor(model_key, mock_mode, scenario_key, camera_index, confidence, f
 
 load_styles()
 initialize_state()
+if "mock_mode" not in st.session_state:
+    st.session_state["mock_mode"] = st.query_params.get("demo") == "1"
 
 logo_path = Path(__file__).parent / "assets" / "logo.png"
 logo_data = base64.b64encode(logo_path.read_bytes()).decode("ascii") if logo_path.exists() else ""

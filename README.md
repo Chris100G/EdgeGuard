@@ -6,7 +6,7 @@ Real-time visual privacy awareness using local person detection. EdgeGuard detec
 
 - Local application: ready to run with webcam or labeled sample-image demo mode.
 - GitHub repository: [Chris100G/EdgeGuard](https://github.com/Chris100G/EdgeGuard).
-- Hosted demo: not deployed yet. Streamlit Community Cloud requires the account owner to sign in with Google and authorize the GitHub repository.
+- Hosted demo: [Open EdgeGuard](https://chris100g-edgeguard-app-lzgwgv.streamlit.app/?demo=1). The URL selects the labeled sample-image feed; click **Start monitoring** to run inference.
 
 ## Run locally
 
@@ -65,7 +65,7 @@ When run locally, frames are processed by the local Python process. A hosted Str
 2. Sign in with the owner's Google account and authorize Streamlit Community Cloud to access the GitHub repository.
 3. Wait for the build to complete, then test in sample-image demo mode. Hosted deployments cannot access a visitor's laptop webcam.
 
-**Hosted app:** Not deployed. Complete the owner sign-in above to create the live app.
+**Hosted app:** [chris100g-edgeguard-app-lzgwgv.streamlit.app](https://chris100g-edgeguard-app-lzgwgv.streamlit.app/?demo=1).
 
 ## Limitations
 
