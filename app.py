@@ -186,74 +186,10 @@ def monitor_tick() -> None:
     st.session_state.latest_frame = cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB)
 
 
-@st.fragment(run_every=0.1)
-def live_monitor(model_key, mock_mode, scenario_key, camera_index, confidence, frame_interval) -> None:
+def render_dashboard(model_key, mock_mode) -> None:
     left, right = st.columns([1.7, 1], gap="large")
     with left:
-        st.subheader("Monitoring")
-        start_col, stop_col, state_col = st.columns([1, 1, 2])
-        with start_col:
-            start_clicked = st.button(
-                "Start monitoring", type="primary", disabled=st.session_state.monitoring,
-            )
-        with stop_col:
-            stop_clicked = st.button("Stop", disabled=not st.session_state.monitoring)
-        with state_col:
-            st.caption("Active" if st.session_state.monitoring else "Stopped")
-
-        if start_clicked:
-            try:
-                from core.detector import PersonDetector
-
-                detector = PersonDetector(model_key=model_key, confidence_threshold=confidence)
-                manager = VideoStreamManager(
-                    camera_index=camera_index,
-                    use_mock=mock_mode,
-                    mock_scenario=scenario_key,
-                )
-                started, error = manager.start()
-                if not started:
-                    st.session_state.last_error = error
-                    assessment = st.session_state.risk_engine.evaluate(0, camera_error=error)
-                    st.session_state.assessment = assessment
-                    log_assessment_change(assessment)
-                else:
-                    st.session_state.detector = detector
-                    st.session_state.manager = manager
-                    st.session_state.monitoring = True
-                    st.session_state.last_error = None
-                    st.session_state.latest_detection = None
-                    st.session_state.latest_frame = None
-                    st.session_state.frame_number = 0
-                    st.session_state.risk_engine.reset()
-                    st.session_state.performance.reset()
-                    st.session_state.last_logged_state = STATE_INACTIVE
-                    st.session_state.event_logger.log_event(
-                        "MONITORING_START", 0, 0.0, STATE_INACTIVE,
-                        "Monitoring started in " + ("sample image demo" if mock_mode else "local camera") + " mode.",
-                    )
-            except Exception as error:
-                st.session_state.last_error = str(error)
-                assessment = st.session_state.risk_engine.evaluate(0, model_error=str(error))
-                st.session_state.assessment = assessment
-                log_assessment_change(assessment)
-            st.rerun()
-
-        if stop_clicked:
-            if st.session_state.manager:
-                st.session_state.manager.stop()
-            st.session_state.monitoring = False
-            st.session_state.risk_engine.reset()
-            st.session_state.assessment = None
-            st.session_state.latest_frame = None
-            st.session_state.last_error = None
-            st.session_state.event_logger.log_event(
-                "MONITORING_STOP", 0, 0.0, STATE_INACTIVE, "Monitoring stopped by the user.",
-            )
-            st.rerun()
-
-        if st.session_state.monitoring:
-            monitor_tick()
+        st.subheader("Camera preview")
         if st.session_state.latest_frame is not None and st.session_state.monitoring:
             st.image(st.session_state.latest_frame, width="stretch")
             mode = "MOCK SAMPLE FEED" if mock_mode else "LOCAL CAMERA FEED"
@@ -321,6 +257,15 @@ def live_monitor(model_key, mock_mode, scenario_key, camera_index, confidence, f
         )
 
 
+@st.fragment(run_every=0.1)
+def live_monitor(model_key, mock_mode) -> None:
+    if st.session_state.monitoring:
+        monitor_tick()
+    if not st.session_state.monitoring:
+        st.rerun()
+    render_dashboard(model_key, mock_mode)
+
+
 load_styles()
 initialize_state()
 if "mock_mode" not in st.session_state:
@@ -375,4 +320,68 @@ with st.sidebar:
 
 st.session_state.confidence_threshold = confidence
 st.session_state.processing_interval = frame_interval
-live_monitor(model_key, mock_mode, scenario_key, int(camera_index), confidence, frame_interval)
+
+st.subheader("Monitoring")
+start_col, stop_col, state_col = st.columns([1, 1, 2])
+with start_col:
+    start_clicked = st.button("Start monitoring", type="primary", disabled=st.session_state.monitoring)
+with stop_col:
+    stop_clicked = st.button("Stop", disabled=not st.session_state.monitoring)
+with state_col:
+    st.caption("Active" if st.session_state.monitoring else "Stopped")
+
+if start_clicked:
+    try:
+        from core.detector import PersonDetector
+
+        detector = PersonDetector(model_key=model_key, confidence_threshold=confidence)
+        manager = VideoStreamManager(
+            camera_index=int(camera_index),
+            use_mock=mock_mode,
+            mock_scenario=scenario_key,
+        )
+        started, error = manager.start()
+        if not started:
+            st.session_state.last_error = error
+            assessment = st.session_state.risk_engine.evaluate(0, camera_error=error)
+            st.session_state.assessment = assessment
+            log_assessment_change(assessment)
+        else:
+            st.session_state.detector = detector
+            st.session_state.manager = manager
+            st.session_state.monitoring = True
+            st.session_state.last_error = None
+            st.session_state.latest_detection = None
+            st.session_state.latest_frame = None
+            st.session_state.frame_number = 0
+            st.session_state.risk_engine.reset()
+            st.session_state.performance.reset()
+            st.session_state.last_logged_state = STATE_INACTIVE
+            st.session_state.event_logger.log_event(
+                "MONITORING_START", 0, 0.0, STATE_INACTIVE,
+                "Monitoring started in " + ("sample image demo" if mock_mode else "local camera") + " mode.",
+            )
+    except Exception as error:
+        st.session_state.last_error = str(error)
+        assessment = st.session_state.risk_engine.evaluate(0, model_error=str(error))
+        st.session_state.assessment = assessment
+        log_assessment_change(assessment)
+    st.rerun()
+
+if stop_clicked:
+    if st.session_state.manager:
+        st.session_state.manager.stop()
+    st.session_state.monitoring = False
+    st.session_state.risk_engine.reset()
+    st.session_state.assessment = None
+    st.session_state.latest_frame = None
+    st.session_state.last_error = None
+    st.session_state.event_logger.log_event(
+        "MONITORING_STOP", 0, 0.0, STATE_INACTIVE, "Monitoring stopped by the user.",
+    )
+    st.rerun()
+
+if st.session_state.monitoring:
+    live_monitor(model_key, mock_mode)
+else:
+    render_dashboard(model_key, mock_mode)
