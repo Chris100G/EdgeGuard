@@ -1,5 +1,5 @@
 streamlit>=1.65,<2
-opencv-python>=4.8,<6
+opencv-python-headless>=4.8,<6
 numpy>=1.26,<2.5
 ai-edge-litert>=2.3,<3
 pandas>=2.3,<3
