@@ -23,7 +23,6 @@ from config import (
     STATE_SAFE,
 )
 from core.camera import MOCK_SCENARIOS, VideoStreamManager
-from core.detector import PersonDetector
 from core.event_logger import SecurityEventLogger
 from core.performance import PerformanceTracker
 from core.risk_engine import PrivacyRiskEngine
@@ -204,6 +203,8 @@ def live_monitor(model_key, mock_mode, scenario_key, camera_index, confidence, f
 
         if start_clicked:
             try:
+                from core.detector import PersonDetector
+
                 detector = PersonDetector(model_key=model_key, confidence_threshold=confidence)
                 manager = VideoStreamManager(
                     camera_index=camera_index,
